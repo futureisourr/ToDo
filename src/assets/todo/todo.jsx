@@ -5,6 +5,8 @@ import trashCanImg from '../images/trash-can.png';
 import uncheckedImg from '../images/unchecked.png';
 import checkedImg from '../images/checked.png';
 
+// <3
+
 const ToDoApp = () => {
   const [taskInput, setTaskInput] = useState('');
   const [taskList, setTaskList] = useState([]);
@@ -17,30 +19,29 @@ const ToDoApp = () => {
     if (taskInput === '') {
       alert("You must write something!");
     } else {
-      setTaskList(prevTasks => [...prevTasks, { text: taskInput, isChecked: false }]);
-      saveData();
+      const newTaskList = [...taskList, { text: taskInput, isChecked: false }];
+      setTaskList(newTaskList);
+      saveData(newTaskList);
     }
     setTaskInput('');
   };
 
   const toggleTask = (index) => {
     const updatedTasks = [...taskList];
-    updatedTasks[index] = {
-      text: taskList[index].text,
-      isChecked: !taskList[index].isChecked,
-    };
+    updatedTasks[index].isChecked = !updatedTasks[index].isChecked;
     setTaskList(updatedTasks);
-    saveData();
+    saveData(updatedTasks);
   };
 
+  
   const removeTask = (index) => {
     const updatedTasks = taskList.filter((task, i) => i !== index);
     setTaskList(updatedTasks);
-    saveData();
+    saveData(updatedTasks);
   };
 
-  const saveData = () => {
-    localStorage.setItem("taskData", JSON.stringify(taskList));
+  const saveData = (data) => {
+    localStorage.setItem("taskData", JSON.stringify(data));
   };
 
   const showTasks = () => {
@@ -54,6 +55,7 @@ const ToDoApp = () => {
     <div className="container">
       <div className="todo-app">
         <div className="row">
+          <img src={checkedImg} />
           <input
             type="text"
             id="input-box"
@@ -67,15 +69,16 @@ const ToDoApp = () => {
           {taskList.map((task, index) => (
             <li
               key={index}
-              onClick={() => toggleTask(index)}
               className={task.isChecked ? "checked" : ""}
             >
               {task.text}
               <span>
                 <img
+                  onClick={() => toggleTask(index)}
                   src={task.isChecked ? checkedImg : uncheckedImg}
                   alt={task.isChecked ? "checked" : "unchecked"}
                 />
+                
                 <img
                   src={trashCanImg}
                   className="trashCan"

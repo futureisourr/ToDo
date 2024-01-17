@@ -58,6 +58,7 @@
     align-items: center; 
     margin: 10px 10px;
     padding: 5px;
+    margin: auto;
   }
   
   .unchecked,
@@ -71,10 +72,10 @@
     margin-right: 10px;
   }
   
-  .checked {
+  .checked::before {
     display: none;
   }
-  
+
   li.checked .unchecked {
     display: none;
   }
